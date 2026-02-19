@@ -9,8 +9,8 @@ SENHA_CORRETA = "1234"
 
 # Produtos simulados
 produtos = [
-    {"nome": "Teclado", "quantidade": 10, "localizacao": "Prateleira A"},
-    {"nome": "Mouse", "quantidade": 20, "localizacao": "Prateleira B"},
+    {"nome": "Teclado", "quantidade": 10, "localizacao": "Rua 1, Prateleira A"},
+    {"nome": "Mouse", "quantidade": 20, "localizacao": "Rua 1, Prateleira B"},
 ]
 
 @app.route("/")

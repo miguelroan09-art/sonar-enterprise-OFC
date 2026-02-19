@@ -103,10 +103,21 @@ def logar():
         return render_template("login.html", erro="Usuário ou senha incorretos")
 
 @app.route("/dashboard")
+@app.route("/dashboard")
 def dashboard():
     if "usuario" not in session:
         return redirect(url_for("login"))
-    return render_template("dashboard.html", produtos=produtos)
+
+    busca = request.args.get("busca")
+
+    if busca:
+        produtos_filtrados = [
+            p for p in produtos if busca.lower() in p["nome"].lower()
+        ]
+    else:
+        produtos_filtrados = produtos
+
+    return render_template("dashboard.html", produtos=produtos_filtrados)
 
 # ---------------------------
 # NOVA ROTA DE CADASTRO

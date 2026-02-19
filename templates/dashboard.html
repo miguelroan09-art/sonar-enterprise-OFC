@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    SONAR ENTERPRISE
+</header>
+
+<div class="container">
+
+<div class="menu">
+    <a href="/cadastro">
+        <button class="btn">Novo Produto</button>
+    </a>
+
+    <a href="/logout">
+        <button class="btn">Sair</button>
+    </a>
+</div>
+
+
+    <div class="card">
+        <h3>Produtos Cadastrados</h3>
+
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Localização</th>
+            </tr>
+
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.quantidade }}</td>
+                <td>{{ produto.localizacao }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
+

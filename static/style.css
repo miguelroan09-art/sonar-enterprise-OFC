@@ -1,0 +1,138 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* FUNDO GERAL */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #010101; /* Preto principal */
+    color: #F6F8Fa; /* Branco principal */
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(90deg, #2B79B1, #36A0D6);
+    color: #F6F8Fa;
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* CONTAINER PADRÃO */
+.container {
+    width: 85%;
+    margin: 40px auto;
+}
+
+/* MENU CENTRAL */
+.menu {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* CARDS */
+.card {
+    background-color: #BDD6E4; /* Azul bebê claro */
+    color: #010101;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+/* BOTÕES */
+.btn {
+    background-color: #36A0D6; /* Azul médio */
+    color: #F6F8Fa;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #68C6EE; /* Azul vibrante */
+    transform: scale(1.05);
+}
+
+/* BOTÃO ESCURO */
+.btn-dark {
+    background-color: #2B79B1;
+}
+
+.btn-dark:hover {
+    background-color: #36A0D6;
+}
+
+/* INPUTS */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #2B79B1;
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #BDD6E4;
+    color: #010101;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th {
+    background-color: #2B79B1;
+    color: #F6F8Fa;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #36A0D6;
+}
+
+tr:hover {
+    background-color: #68C6EE;
+}
+
+/* ========================= */
+/* LOGIN CENTRALIZADO */
+/* ========================= */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+}
+
+.login-card {
+    background-color: #BDD6E4;
+    color: #010101;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-card .btn {
+    width: 100%;
+}
+

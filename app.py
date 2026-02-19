@@ -102,7 +102,7 @@ def logar():
     else:
         return render_template("login.html", erro="Usuário ou senha incorretos")
 
-@app.route("/dashboard")
+
 @app.route("/dashboard")
 def dashboard():
     if "usuario" not in session:

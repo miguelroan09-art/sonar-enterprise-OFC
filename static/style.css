@@ -3,136 +3,113 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-/* FUNDO GERAL */
-body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #010101; /* Preto principal */
-    color: #F6F8Fa; /* Branco principal */
 }
 
-/* HEADER */
+/* FUNDO COM DEGRADÊ + LOGO */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #000000, #0a1f44);
+    background-attachment: fixed;
+    color: white;
+    position: relative;
+}
+
+/* LOGO DE FUNDO (marca d’água) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/sonar.png.png") center center no-repeat;
+    background-size: 400px;
+    opacity: 0.05; /* transparência da marca d’água */
+    z-index: 0;
+}
+
+/* CONTAINER PRINCIPAL */
+.container {
+    position: relative;
+    z-index: 1;
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* HEADER PROFISSIONAL */
 header {
-    background: linear-gradient(90deg, #2B79B1, #36A0D6);
-    color: #F6F8Fa;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(90deg, #001f4d, #003d99);
     padding: 20px;
     text-align: center;
-    font-size: 22px;
+    font-size: 26px;
     font-weight: bold;
     letter-spacing: 2px;
-}
-
-/* CONTAINER PADRÃO */
-.container {
-    width: 85%;
-    margin: 40px auto;
-}
-
-/* MENU CENTRAL */
-.menu {
-    text-align: center;
-    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
 /* CARDS */
 .card {
-    background-color: #BDD6E4; /* Azul bebê claro */
-    color: #010101;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
     padding: 25px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    margin-top: 20px;
 }
 
 /* BOTÕES */
 .btn {
-    background-color: #36A0D6; /* Azul médio */
-    color: #F6F8Fa;
+    background: linear-gradient(90deg, #0047ab, #0073e6);
     border: none;
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 10px 18px;
+    color: white;
+    font-weight: bold;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s ease;
+    transition: 0.3s;
 }
 
 .btn:hover {
-    background-color: #68C6EE; /* Azul vibrante */
     transform: scale(1.05);
-}
-
-/* BOTÃO ESCURO */
-.btn-dark {
-    background-color: #2B79B1;
-}
-
-.btn-dark:hover {
-    background-color: #36A0D6;
-}
-
-/* INPUTS */
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #2B79B1;
+    background: linear-gradient(90deg, #0066ff, #0099ff);
 }
 
 /* TABELA */
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #BDD6E4;
-    color: #010101;
-    border-radius: 8px;
-    overflow: hidden;
+    margin-top: 15px;
 }
 
 th {
-    background-color: #2B79B1;
-    color: #F6F8Fa;
-    padding: 10px;
+    background: #003d99;
+    padding: 12px;
+    text-transform: uppercase;
+    font-size: 14px;
 }
 
 td {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
-    border-bottom: 1px solid #36A0D6;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-tr:hover {
-    background-color: #68C6EE;
+tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.08);
 }
 
-/* ========================= */
-/* LOGIN CENTRALIZADO */
-/* ========================= */
-
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 80px);
+/* INPUTS */
+input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-right: 5px;
 }
 
-.login-card {
-    background-color: #BDD6E4;
-    color: #010101;
-    padding: 30px;
-    border-radius: 12px;
-    width: 350px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-}
-
-.login-card h2 {
+/* MENU */
+.menu {
     text-align: center;
     margin-bottom: 20px;
 }
-
-.login-card .btn {
-    width: 100%;
-}
-

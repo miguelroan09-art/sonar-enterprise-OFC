@@ -6,36 +6,28 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* FUNDO COM DEGRADÊ + LOGO */
+/* FUNDO COM DEGRADÊ */
 body {
     min-height: 100vh;
     background: linear-gradient(135deg, #000000, #0a1f44);
     background-attachment: fixed;
     color: white;
-    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-/* LOGO DE FUNDO (marca d’água) */
+/* MARCA D’ÁGUA MAIS VISÍVEL */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background: url("/static/sonar.png.png") center center no-repeat;
-    background-size: 400px;
-    opacity: 0.05; /* transparência da marca d’água */
+    background: url("/static/logo.png") center center no-repeat;
+    background-size: 500px;
+    opacity: 0.12; /* aumentei a visibilidade */
     z-index: 0;
 }
 
-/* CONTAINER PRINCIPAL */
-.container {
-    position: relative;
-    z-index: 1;
-    padding: 40px 20px;
-    max-width: 1000px;
-    margin: auto;
-}
-
-/* HEADER PROFISSIONAL */
+/* HEADER */
 header {
     position: relative;
     z-index: 1;
@@ -48,21 +40,43 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* CARDS */
+/* CONTAINER CENTRALIZADO */
+.container {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD LOGIN */
 .card {
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    padding: 25px;
+    backdrop-filter: blur(10px);
+    padding: 35px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    margin-top: 20px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+    width: 350px;
+    text-align: center;
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: none;
+    outline: none;
 }
 
 /* BOTÕES */
 .btn {
+    width: 100%;
     background: linear-gradient(90deg, #0047ab, #0073e6);
     border: none;
-    padding: 10px 18px;
+    padding: 12px;
     color: white;
     font-weight: bold;
     border-radius: 6px;
@@ -97,15 +111,6 @@ td {
 
 tr:nth-child(even) td {
     background: rgba(255, 255, 255, 0.08);
-}
-
-/* INPUTS */
-input {
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    margin-right: 5px;
 }
 
 /* MENU */

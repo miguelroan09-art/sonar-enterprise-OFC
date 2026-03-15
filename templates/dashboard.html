@@ -1,48 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Dashboard</title>
 
 <style>
 
 body{
-font-family:Arial;
-background:#f1f5f9;
+    margin:0;
+    font-family:Arial;
+
+    background: linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+    min-height:100vh;
 }
 
 header{
-background:#1e293b;
-color:white;
-padding:15px;
+    color:white;
+    padding:20px;
 }
 
 .container{
-padding:30px;
+
+    background:white;
+    margin:30px;
+    padding:30px;
+    border-radius:10px;
+
 }
 
-table{
-width:100%;
-background:white;
-border-collapse:collapse;
+.search{
+    margin-bottom:20px;
 }
 
-th{
-background:#1e293b;
-color:white;
-padding:10px;
-}
-
-td{
-padding:10px;
-border-bottom:1px solid #ddd;
+.search input{
+    padding:10px;
+    width:250px;
 }
 
 button{
-padding:10px 15px;
-background:#2563eb;
-color:white;
-border:none;
-cursor:pointer;
+    padding:10px 15px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+
+}
+
+th{
+    background:#1e293b;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f1f5f9;
+}
+
+.actions{
+    margin-bottom:20px;
 }
 
 </style>
@@ -52,29 +83,44 @@ cursor:pointer;
 <body>
 
 <header>
-<h2>Estoque Certo - Sonar Enterprise</h2>
+
+<h2>Estoque Certo</h2>
+<p>Sonar Enterprise</p>
+
 </header>
 
 <div class="container">
 
+<div class="search">
+
 <form method="GET">
+
 <input type="text" name="busca" placeholder="Pesquisar item">
+
 <button type="submit">Buscar</button>
+
 </form>
 
-<br>
+</div>
 
-<a href="/cadastrar"><button>Cadastrar Item</button></a>
-<a href="/baixar"><button>Dar Baixa</button></a>
+<div class="actions">
 
-<h3>Itens</h3>
+<a href="/cadastrar">
+<button>Cadastrar Item</button>
+</a>
+
+<a href="/baixar">
+<button>Dar Baixa</button>
+</a>
+
+</div>
 
 <table>
 
 <tr>
 <th>ID</th>
 <th>Código</th>
-<th>Nome</th>
+<th>Produto</th>
 <th>Quantidade</th>
 <th>Rua</th>
 <th>Prateleira</th>

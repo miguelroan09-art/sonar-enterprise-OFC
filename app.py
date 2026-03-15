@@ -40,32 +40,35 @@ with conectar() as con:
 
     if total == 0:
 
-        itens_iniciais = [
+        itens = [
 
-        ('1001','Monitor',10,'Rua 1','C','1'),
-        ('1002','Notebook',10,'Rua 1','D','1'),
-        ('1003','Tablet',10,'Rua 1','E','1'),
+        ('1001','Monitor',10,'Rua 1','A','1'),
+        ('1002','Notebook',10,'Rua 1','B','1'),
+        ('1003','Tablet',10,'Rua 1','C','1'),
+        ('1004','Smartphone',10,'Rua 1','D','1'),
+        ('1005','Smartwatch',10,'Rua 1','E','1'),
+        ('1006','Fone de ouvido',10,'Rua 1','F','1'),
 
-        ('1004','Smartphone',10,'Rua 2','A','1'),
-        ('1005','Smartwatch',10,'Rua 2','B','1'),
-        ('1006','Fone de ouvido',10,'Rua 2','C','1'),
-        ('1007','Headset',10,'Rua 2','D','1'),
-        ('1008','Caixa de som',10,'Rua 2','E','1'),
-        ('1009','Microfone',10,'Rua 2','F','1'),
+        ('1007','Headset',10,'Rua 2','A','1'),
+        ('1008','Caixa de som',10,'Rua 2','B','1'),
+        ('1009','Microfone',10,'Rua 2','C','1'),
+        ('1010','Webcam',10,'Rua 2','D','1'),
+        ('1011','Impressora',10,'Rua 2','E','1'),
+        ('1012','Scanner',10,'Rua 2','F','1'),
 
-        ('1010','Webcam',10,'Rua 3','A','1'),
-        ('1011','Impressora',10,'Rua 3','B','1'),
-        ('1012','Scanner',10,'Rua 3','C','1'),
-        ('1013','HD externo',10,'Rua 3','D','1'),
-        ('1014','SSD externo',10,'Rua 3','E','1'),
-        ('1015','Pendrive',10,'Rua 3','F','1')
+        ('1013','HD externo',10,'Rua 3','A','1'),
+        ('1014','SSD externo',10,'Rua 3','B','1'),
+        ('1015','Pendrive',10,'Rua 3','C','1'),
+        ('1016','Hub USB',10,'Rua 3','D','1'),
+        ('1017','Dock station',10,'Rua 3','E','1'),
+        ('1018','Power bank',10,'Rua 3','F','1')
 
         ]
 
-        cur.executemany(
-            "INSERT INTO itens(codigo,nome,quantidade,corredor,prateleira,nivel) VALUES (?,?,?,?,?,?)",
-            itens_iniciais
-        )
+        cur.executemany("""
+        INSERT INTO itens(codigo,nome,quantidade,corredor,prateleira,nivel)
+        VALUES (?,?,?,?,?,?)
+        """, itens)
 
         con.commit()
 
@@ -83,15 +86,14 @@ def logar():
     email = request.form.get("email")
     senha = request.form.get("senha")
 
-    if not email or not senha:
-        return "Preencha todos os campos"
-
     with conectar() as con:
         cur = con.cursor()
+
         cur.execute(
             "SELECT * FROM usuarios WHERE email=? AND senha=?",
             (email, senha)
         )
+
         user = cur.fetchone()
 
     if user:
@@ -109,9 +111,19 @@ def dashboard():
     if "user" not in session:
         return redirect("/")
 
+    busca = request.args.get("busca")
+
     with conectar() as con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM itens")
+
+        if busca:
+            cur.execute(
+                "SELECT * FROM itens WHERE nome LIKE ?",
+                ('%' + busca + '%',)
+            )
+        else:
+            cur.execute("SELECT * FROM itens")
+
         itens = cur.fetchall()
 
     return render_template("dashboard.html", itens=itens)
@@ -135,8 +147,7 @@ def cadastrar():
             cur = con.cursor()
 
             cur.execute("""
-            INSERT INTO itens
-            (codigo,nome,quantidade,corredor,prateleira,nivel)
+            INSERT INTO itens(codigo,nome,quantidade,corredor,prateleira,nivel)
             VALUES (?,?,?,?,?,?)
             """,(codigo,nome,quantidade,corredor,prateleira,nivel))
 
@@ -168,7 +179,11 @@ def baixar():
             if nova < 0:
                 nova = 0
 
-            cur.execute("UPDATE itens SET quantidade=? WHERE id=?", (nova,id_item))
+            cur.execute(
+                "UPDATE itens SET quantidade=? WHERE id=?",
+                (nova,id_item)
+            )
+
             con.commit()
 
             return redirect("/dashboard")
@@ -179,8 +194,8 @@ def baixar():
     return render_template("baixar.html", itens=itens)
 
 
-# ---------- RODAR SERVIDOR ----------
+# ---------- SERVIDOR ----------
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
+    port = int(os.environ.get("PORT",10000))
     app.run(host="0.0.0.0", port=port)

@@ -3,7 +3,10 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = 'sonar123'
+
+app.config["SECRET_KEY"] = "sonar123"
+app.config["SESSION_COOKIE_SECURE"] = False
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 
 def conectar():

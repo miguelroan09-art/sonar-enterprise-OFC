@@ -2,37 +2,81 @@
 <html>
 <head>
 <title>Dashboard - Estoque Certo</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#f1f5f9;
+}
+
+header{
+    background:#1e293b;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:30px;
+}
+
+button{
+    padding:10px 15px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#1e293b;
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<img src="/static/logo.png" width="120">
+<header>
+<h2>Estoque Certo - Sonar Enterprise</h2>
+</header>
 
-<h1>Dashboard</h1>
-<h3>Sonar Enterprise</h3>
-
-<br>
+<div class="container">
 
 <a href="/cadastrar">
 <button>Cadastrar Item</button>
 </a>
 
-<br><br>
-
 <a href="/baixar">
-<button>Dar baixa em item</button>
+<button>Dar Baixa</button>
 </a>
 
-<br><br>
+<h3>Itens no Estoque</h3>
 
-<h2>Estoque</h2>
-
-<table border="1">
+<table>
 
 <tr>
 <th>ID</th>
 <th>Código</th>
-<th>Produto</th>
+<th>Nome</th>
 <th>Quantidade</th>
 <th>Rua</th>
 <th>Prateleira</th>
@@ -55,11 +99,7 @@
 
 </table>
 
-<br><br>
-
-<a href="/">
-<button>Sair</button>
-</a>
+</div>
 
 </body>
 </html>

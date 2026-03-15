@@ -1,93 +1,136 @@
-
-
-from flask import Flask, render_template, request, redirect, url_for, session
-import os
+from flask import Flask, render_template, request, redirect, session
+import sqlite3
 
 app = Flask(__name__)
-app.secret_key = "sonar_secret_key"
+app.secret_key = 'sonar123'
 
-# Usuário fixo
-USUARIO_CORRETO = "admin"
-SENHA_CORRETA = "1234"
 
-# Produtos simulados
-produtos = [
-    {"nome": "Teclado", "quantidade": 10, "localizacao": "Rua 1, Prateleira A"},
-    {"nome": "Mouse", "quantidade": 20, "localizacao": "Rua 1, Prateleira B"},
-]
+def conectar():
+    return sqlite3.connect('banco.db')
 
-# ---------------------------
-# LOGIN
-# ---------------------------
-@app.route("/")
+
+# Criar tabelas
+with conectar() as con:
+    cur = con.cursor()
+
+    cur.execute('''
+    CREATE TABLE IF NOT EXISTS usuarios(
+        id INTEGER PRIMARY KEY,
+        email TEXT,
+        senha TEXT)
+    ''')
+
+    cur.execute('''
+    CREATE TABLE IF NOT EXISTS itens(
+        id INTEGER PRIMARY KEY,
+        codigo TEXT,
+        nome TEXT,
+        quantidade INTEGER,
+        corredor TEXT,
+        prateleira TEXT,
+        nivel TEXT)
+    ''')
+
+    cur.execute("INSERT OR IGNORE INTO usuarios VALUES (1,'admin@sonar.com','123')")
+
+
+# ---------------- LOGIN ----------------
+
+@app.route('/')
 def login():
-    return render_template("login.html")
+    return render_template('login.html')
 
-@app.route("/logar", methods=["POST"])
+
+@app.route('/logar', methods=['POST'])
 def logar():
-    usuario = request.form["usuario"]
-    senha = request.form["senha"]
+    email = request.form['email']
+    senha = request.form['senha']
 
-    if usuario == USUARIO_CORRETO and senha == SENHA_CORRETA:
-        session["usuario"] = usuario
-        return redirect(url_for("dashboard"))
-    else:
-        return render_template("login.html", erro="Usuário ou senha incorretos")
+    with conectar() as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM usuarios WHERE email=? AND senha=?", (email, senha))
+        user = cur.fetchone()
 
-# ---------------------------
-# DASHBOARD COM BUSCA
-# ---------------------------
-@app.route("/dashboard")
+        if user:
+            session['user'] = email
+            return redirect('/dashboard')
+
+    return "Login inválido"
+
+
+# ---------------- DASHBOARD ----------------
+
+@app.route('/dashboard')
 def dashboard():
-    if "usuario" not in session:
-        return redirect(url_for("login"))
 
-    busca = request.args.get("busca")
-    if busca:
-        produtos_filtrados = [p for p in produtos if busca.lower() in p["nome"].lower()]
-    else:
-        produtos_filtrados = produtos
+    if 'user' not in session:
+        return redirect('/')
 
-    return render_template("dashboard.html", produtos=produtos_filtrados)
+    return render_template('dashboard.html')
 
-# ---------------------------
-# CADASTRO DE PRODUTOS
-# ---------------------------
-@app.route("/cadastro")
-def cadastro():
-    if "usuario" not in session:
-        return redirect(url_for("login"))
-    return render_template("cadastro.html")
 
-@app.route("/adicionar", methods=["POST"])
-def adicionar():
-    if "usuario" not in session:
-        return redirect(url_for("login"))
+# ---------------- CADASTRAR ITEM ----------------
 
-    nome = request.form["nome"]
-    quantidade = request.form["quantidade"]
-    localizacao = request.form["localizacao"]
+@app.route('/cadastrar', methods=['GET', 'POST'])
+def cadastrar():
 
-    novo_produto = {
-        "nome": nome,
-        "quantidade": quantidade,
-        "localizacao": localizacao
-    }
+    if request.method == 'POST':
 
-    produtos.append(novo_produto)
-    return redirect(url_for("dashboard"))
+        codigo = request.form['codigo']
+        nome = request.form['nome']
+        quantidade = request.form['quantidade']
+        corredor = request.form['corredor']
+        prateleira = request.form['prateleira']
+        nivel = request.form['nivel']
 
-# ---------------------------
-# LOGOUT
-# ---------------------------
-@app.route("/logout")
-def logout():
-    session.pop("usuario", None)
-    return redirect(url_for("login"))
+        with conectar() as con:
+            cur = con.cursor()
 
-# ---------------------------
-# EXECUÇÃO NO RENDER
-# ---------------------------
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+            cur.execute('''
+            INSERT INTO itens(codigo,nome,quantidade,corredor,prateleira,nivel)
+            VALUES (?,?,?,?,?,?)
+            ''', (codigo, nome, quantidade, corredor, prateleira, nivel))
+
+            con.commit()
+
+        return redirect('/dashboard')
+
+    return render_template('cadastrar.html')
+
+
+# ---------------- DAR BAIXA EM ITEM ----------------
+
+@app.route('/baixar', methods=['GET','POST'])
+def baixar():
+
+    with conectar() as con:
+        cur = con.cursor()
+
+        if request.method == 'POST':
+
+            id_item = request.form['id_item']
+            quantidade = int(request.form['quantidade'])
+
+            cur.execute("SELECT quantidade FROM itens WHERE id=?", (id_item,))
+            atual = cur.fetchone()[0]
+
+            nova = atual - quantidade
+
+            if nova < 0:
+                nova = 0
+
+            cur.execute("UPDATE itens SET quantidade=? WHERE id=?", (nova, id_item))
+            con.commit()
+
+            return redirect('/dashboard')
+
+        cur.execute("SELECT * FROM itens")
+        itens = cur.fetchall()
+
+    return render_template('baixar.html', itens=itens)
+
+
+# ---------------- RODAR SISTEMA ----------------
+
+if __name__ == '__main__':
+    app.run(debug=True)

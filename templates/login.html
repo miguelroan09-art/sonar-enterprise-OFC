@@ -1,33 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login - Sonar Enterprise</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<title>Login - Estoque Certo</title>
 </head>
+
 <body>
 
-<header>
-    SONAR ENTERPRISE
-</header>
+<h2>Login</h2>
 
-<div class="login-container">
-    <div class="login-card">
+<form action="/logar" method="POST">
 
-        <h2>Acesso ao Sistema</h2>
+<input type="email" name="email" placeholder="Email" required>
 
-        {% if erro %}
-            <p style="color:red; margin-bottom:10px;">{{ erro }}</p>
-        {% endif %}
+<br><br>
 
-        <form action="/logar" method="POST">
-            <input type="text" name="usuario" placeholder="Usuário" required>
-            <input type="password" name="senha" placeholder="Senha" required>
+<input type="password" name="senha" placeholder="Senha" required>
 
-            <button class="btn" type="submit">Entrar</button>
-        </form>
+<br><br>
 
-    </div>
-</div>
+<button type="submit">Entrar</button>
+
+</form>
 
 </body>
 </html>

@@ -3,29 +3,26 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-
 app.config["SECRET_KEY"] = "sonar123"
-app.config["SESSION_COOKIE_SECURE"] = False
-app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 
 def conectar():
-    return sqlite3.connect('banco.db')
+    return sqlite3.connect("banco.db")
 
 
-# ---------------- CRIAR BANCO ----------------
+# ---------- CRIAR BANCO ----------
 
 with conectar() as con:
     cur = con.cursor()
 
-    cur.execute('''
+    cur.execute("""
     CREATE TABLE IF NOT EXISTS usuarios(
         id INTEGER PRIMARY KEY,
         email TEXT,
         senha TEXT)
-    ''')
+    """)
 
-    cur.execute('''
+    cur.execute("""
     CREATE TABLE IF NOT EXISTS itens(
         id INTEGER PRIMARY KEY,
         codigo TEXT,
@@ -34,7 +31,7 @@ with conectar() as con:
         corredor TEXT,
         prateleira TEXT,
         nivel TEXT)
-    ''')
+    """)
 
     cur.execute("INSERT OR IGNORE INTO usuarios VALUES (1,'admin@sonar.com','123')")
 
@@ -73,88 +70,95 @@ with conectar() as con:
         con.commit()
 
 
-# ---------------- LOGIN ----------------
+# ---------- LOGIN ----------
 
-@app.route('/')
+@app.route("/")
 def login():
-    return render_template('login.html')
+    return render_template("login.html")
 
 
-@app.route('/logar', methods=['POST'])
+@app.route("/logar", methods=["POST"])
 def logar():
 
-    email = request.form['email']
-    senha = request.form['senha']
+    email = request.form.get("email")
+    senha = request.form.get("senha")
+
+    if not email or not senha:
+        return "Preencha todos os campos"
 
     with conectar() as con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM usuarios WHERE email=? AND senha=?", (email, senha))
+        cur.execute(
+            "SELECT * FROM usuarios WHERE email=? AND senha=?",
+            (email, senha)
+        )
         user = cur.fetchone()
 
-        if user:
-            session['user'] = email
-            return redirect('/dashboard')
+    if user:
+        session["user"] = email
+        return redirect("/dashboard")
 
     return "Login inválido"
 
 
-# ---------------- DASHBOARD ----------------
+# ---------- DASHBOARD ----------
 
-@app.route('/dashboard')
+@app.route("/dashboard")
 def dashboard():
 
-    if 'user' not in session:
-        return redirect('/')
+    if "user" not in session:
+        return redirect("/")
 
     with conectar() as con:
         cur = con.cursor()
         cur.execute("SELECT * FROM itens")
         itens = cur.fetchall()
 
-    return render_template('dashboard.html', itens=itens)
+    return render_template("dashboard.html", itens=itens)
 
 
-# ---------------- CADASTRAR ITEM ----------------
+# ---------- CADASTRAR ----------
 
-@app.route('/cadastrar', methods=['GET','POST'])
+@app.route("/cadastrar", methods=["GET","POST"])
 def cadastrar():
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
-        codigo = request.form['codigo']
-        nome = request.form['nome']
-        quantidade = request.form['quantidade']
-        corredor = request.form['corredor']
-        prateleira = request.form['prateleira']
-        nivel = request.form['nivel']
+        codigo = request.form.get("codigo")
+        nome = request.form.get("nome")
+        quantidade = request.form.get("quantidade")
+        corredor = request.form.get("corredor")
+        prateleira = request.form.get("prateleira")
+        nivel = request.form.get("nivel")
 
         with conectar() as con:
             cur = con.cursor()
 
-            cur.execute('''
-            INSERT INTO itens(codigo,nome,quantidade,corredor,prateleira,nivel)
+            cur.execute("""
+            INSERT INTO itens
+            (codigo,nome,quantidade,corredor,prateleira,nivel)
             VALUES (?,?,?,?,?,?)
-            ''',(codigo,nome,quantidade,corredor,prateleira,nivel))
+            """,(codigo,nome,quantidade,corredor,prateleira,nivel))
 
             con.commit()
 
-        return redirect('/dashboard')
+        return redirect("/dashboard")
 
-    return render_template('cadastrar.html')
+    return render_template("cadastrar.html")
 
 
-# ---------------- DAR BAIXA ----------------
+# ---------- DAR BAIXA ----------
 
-@app.route('/baixar', methods=['GET','POST'])
+@app.route("/baixar", methods=["GET","POST"])
 def baixar():
 
     with conectar() as con:
         cur = con.cursor()
 
-        if request.method == 'POST':
+        if request.method == "POST":
 
-            id_item = request.form['id_item']
-            quantidade = int(request.form['quantidade'])
+            id_item = request.form.get("id_item")
+            quantidade = int(request.form.get("quantidade"))
 
             cur.execute("SELECT quantidade FROM itens WHERE id=?", (id_item,))
             atual = cur.fetchone()[0]
@@ -167,15 +171,15 @@ def baixar():
             cur.execute("UPDATE itens SET quantidade=? WHERE id=?", (nova,id_item))
             con.commit()
 
-            return redirect('/dashboard')
+            return redirect("/dashboard")
 
         cur.execute("SELECT * FROM itens")
         itens = cur.fetchall()
 
-    return render_template('baixar.html', itens=itens)
+    return render_template("baixar.html", itens=itens)
 
 
-# ---------------- RODAR SERVIDOR ----------------
+# ---------- RODAR SERVIDOR ----------
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))

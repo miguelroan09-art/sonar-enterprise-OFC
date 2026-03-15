@@ -1,53 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard - Sonar Enterprise</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard - Estoque Certo</title>
 </head>
+
 <body>
 
-<header>
-    SONAR ENTERPRISE
-</header>
+<img src="/static/logo.png" width="120">
 
-<div class="container">
+<h1>Dashboard</h1>
 
-    <div class="menu" style="text-align:center; margin-bottom:20px;">
-        <a href="/cadastro">
-            <button class="btn">Novo Produto</button>
-        </a>
-        <a href="/logout">
-            <button class="btn">Sair</button>
-        </a>
-    </div>
+<h3>Sonar Enterprise</h3>
 
-    <!-- FORMULÁRIO DE BUSCA -->
-    <form method="GET" action="/dashboard" style="margin-bottom:20px; text-align:center;">
-        <input type="text" name="busca" placeholder="Buscar produto pelo nome">
-        <button type="submit" class="btn">Buscar</button>
-    </form>
+<br>
 
-    <div class="card">
-        <h3>Produtos Cadastrados</h3>
+<a href="/cadastrar">
+    <button>Cadastrar Item</button>
+</a>
 
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Localização</th>
-            </tr>
-            {% for produto in produtos %}
-            <tr>
-                <td>{{ produto.nome }}</td>
-                <td>{{ produto.quantidade }}</td>
-                <td>{{ produto.localizacao }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+<br><br>
 
-</div>
+<a href="/baixar">
+    <button>Dar baixa em item</button>
+</a>
+
+<br><br>
+
+<a href="/">
+    <button>Sair</button>
+</a>
 
 </body>
 </html>
-

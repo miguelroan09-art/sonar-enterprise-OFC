@@ -9,7 +9,6 @@
 <img src="/static/logo.png" width="120">
 
 <h1>Dashboard</h1>
-
 <h3>Sonar Enterprise</h3>
 
 <br>
@@ -25,6 +24,35 @@
 </a>
 
 <br><br>
+
+<h2>Itens no estoque</h2>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Código</th>
+    <th>Nome</th>
+    <th>Quantidade</th>
+    <th>Corredor</th>
+    <th>Prateleira</th>
+    <th>Nível</th>
+</tr>
+
+{% for item in itens %}
+<tr>
+    <td>{{item[0]}}</td>
+    <td>{{item[1]}}</td>
+    <td>{{item[2]}}</td>
+    <td>{{item[3]}}</td>
+    <td>{{item[4]}}</td>
+    <td>{{item[5]}}</td>
+    <td>{{item[6]}}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<br>
 
 <a href="/">
     <button>Sair</button>

@@ -1,0 +1,21 @@
+<h2>Dar baixa no item</h2>
+
+<form method="post">
+    Item:
+    <select name="id_item">
+        {% for item in itens %}
+        <option value="{{item[0]}}">
+            {{item[2]}} (Estoque: {{item[3]}})
+        </option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    Quantidade a retirar:
+    <input type="number" name="quantidade">
+
+    <br><br>
+
+    <button>Dar baixa</button>
+</form>

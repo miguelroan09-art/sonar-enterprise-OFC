@@ -1,52 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard - Estoque Certo</title>
+<title>Dashboard</title>
 
 <style>
 
 body{
-    font-family: Arial;
-    background:#f1f5f9;
+font-family:Arial;
+background:#f1f5f9;
 }
 
 header{
-    background:#1e293b;
-    color:white;
-    padding:15px;
+background:#1e293b;
+color:white;
+padding:15px;
 }
 
 .container{
-    padding:30px;
-}
-
-button{
-    padding:10px 15px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    cursor:pointer;
+padding:30px;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
+width:100%;
+background:white;
+border-collapse:collapse;
 }
 
 th{
-    background:#1e293b;
-    color:white;
-    padding:10px;
+background:#1e293b;
+color:white;
+padding:10px;
 }
 
 td{
-    padding:10px;
-    border-bottom:1px solid #ddd;
+padding:10px;
+border-bottom:1px solid #ddd;
 }
 
-tr:hover{
-    background:#f8fafc;
+button{
+padding:10px 15px;
+background:#2563eb;
+color:white;
+border:none;
+cursor:pointer;
 }
 
 </style>
@@ -61,15 +57,17 @@ tr:hover{
 
 <div class="container">
 
-<a href="/cadastrar">
-<button>Cadastrar Item</button>
-</a>
+<form method="GET">
+<input type="text" name="busca" placeholder="Pesquisar item">
+<button type="submit">Buscar</button>
+</form>
 
-<a href="/baixar">
-<button>Dar Baixa</button>
-</a>
+<br>
 
-<h3>Itens no Estoque</h3>
+<a href="/cadastrar"><button>Cadastrar Item</button></a>
+<a href="/baixar"><button>Dar Baixa</button></a>
+
+<h3>Itens</h3>
 
 <table>
 
@@ -84,6 +82,7 @@ tr:hover{
 </tr>
 
 {% for item in itens %}
+
 <tr>
 
 <td>{{item[0]}}</td>
@@ -95,6 +94,7 @@ tr:hover{
 <td>{{item[6]}}</td>
 
 </tr>
+
 {% endfor %}
 
 </table>
